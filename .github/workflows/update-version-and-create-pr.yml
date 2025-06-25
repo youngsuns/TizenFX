@@ -50,13 +50,13 @@ jobs:
         git commit -m "Update NUI version to ${{ inputs.version }}"
         git push origin HEAD
 
-    - name: Create Pull Request to DevelNUI
+    - name: Create Pull Request to Samsung/TizenFX:DevelNUI
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.MY_PAT }}
       run: |
         gh pr create \
           --title "Update NUI version to ${{ inputs.version }}" \
           --body "This PR updates NUI version to ${{ inputs.version }}." \
           --base DevelNUI \
-          --head update-nui-${{ inputs.version }} \
-          --repo ${{ github.repository }}
+          --head ${{ github.repository_owner }}::update-nui-${{ inputs.version }} \
+          --repo Samsung/TizenFX
