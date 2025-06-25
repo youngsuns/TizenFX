@@ -26,6 +26,8 @@ jobs:
 
     - name: Create new branch for version update
       run: |
+        git fetch origin DevelNUI
+        git checkout origin/DevelNUI
         git checkout -b update-nui-${{ inputs.version }}
 
     - name: Update version.txt
@@ -34,7 +36,7 @@ jobs:
 
     - name: Update csapi-tizenfx.spec
       run: |
-        sed -i "s/^\(%define TIZEN_NET_RPM_VERSION nui\)[0-9]\+/\1${{ inputs.version }}/" packaging/csapi-tizenfx.spec
+        sed -i "s/^\(%define TIZEN_NET_RPM_VERSION .*nui\)[0-9]\+/\1${{ inputs.version }}/" packaging/csapi-tizenfx.spec
 
     - name: Commit and push changes
       run: |
