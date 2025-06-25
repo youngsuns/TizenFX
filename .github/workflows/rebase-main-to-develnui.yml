@@ -29,7 +29,6 @@ jobs:
 
     - name: Rebase main onto DevelNUI
       run: |
-        git fetch origin
         git checkout -b rebase-main upstream/main
         git rebase upstream/DevelNUI
         git push origin rebase-main --force-with-lease
