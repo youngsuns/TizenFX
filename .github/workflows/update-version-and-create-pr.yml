@@ -1,0 +1,55 @@
+name: "Update NUI version"
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'New NUI version (e.g., 22010)'
+        required: true
+        type: string
+
+jobs:
+  release-nui:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout forked repo (your fork, DevelNUI branch)
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        ref: DevelNUI
+
+    - name: Set up Git config
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+    - name: Create new branch for version update
+      run: |
+        git checkout -b update-nui-${{ inputs.version }}
+
+    - name: Update version.txt
+      run: |
+        sed -i "s/^\(RPM_VERSION_SUFFIX=nui\)[0-9]\+/\1${{ inputs.version }}/" packaging/version.txt
+
+    - name: Update csapi-tizenfx.spec
+      run: |
+        sed -i "s/^\(%define TIZEN_NET_RPM_VERSION nui\)[0-9]\+/\1${{ inputs.version }}/" packaging/csapi-tizenfx.spec
+
+    - name: Commit and push changes
+      run: |
+        git add packaging/version.txt packaging/csapi-tizenfx.spec
+        git commit -m "Update NUI version to ${{ inputs.version }}"
+        git push origin HEAD
+
+    - name: Create Pull Request to DevelNUI
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        title: "Update NUI version to ${{ inputs.version }}"
+        body: |
+          This PR updates NUI version to **${{ inputs.version }}**.
+          Please review and approve.
+        head: update-nui-${{ inputs.version }}
+        base: DevelNUI
+        draft: false
