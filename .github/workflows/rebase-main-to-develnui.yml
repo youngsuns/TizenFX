@@ -33,7 +33,7 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.MY_PAT }}
       run: |
-        gh pr create
+        gh pr create \
           --title "Rebase main to DevelNUI" \
           --body "This PR rebases `main` onto `DevelNUI`. Please use **Rebase and merge** when merging." \
           --base DevelNUI \
