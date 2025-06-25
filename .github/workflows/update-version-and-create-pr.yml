@@ -63,5 +63,5 @@ jobs:
           --title "Update NUI version to ${{ inputs.version }}" \
           --body "This PR updates NUI version to ${{ inputs.version }}." \
           --base DevelNUI \
-          --head ${{ github.repository_owner }}::update-nui-${{ inputs.version }} \
+          --head ${{ github.repository_owner }}:update-nui-${{ inputs.version }} \
           --repo Samsung/TizenFX
