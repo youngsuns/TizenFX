@@ -27,8 +27,8 @@ jobs:
     - name: Create new branch for version update
       run: |
         VERSION=${{ inputs.version }}
-        git branch -D update-nui-${{ inputs.version }} || true
-        git checkout -b update-nui-${{ inputs.version }}
+        git branch -D update-nui-$VERSION || true
+        git checkout -b update-nui-$VERSION
 
     - name: Update version.txt
       run: |
