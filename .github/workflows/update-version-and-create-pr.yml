@@ -26,9 +26,8 @@ jobs:
 
     - name: Create new branch for version update
       run: |
-        git fetch origin DevelNUI
-        git checkout origin/DevelNUI
-        git branch -D update-nui-${{ inputs.version }}
+        VERSION=${{ inputs.version }}
+        git branch -D update-nui-${{ inputs.version }} || true
         git checkout -b update-nui-${{ inputs.version }}
 
     - name: Update version.txt
