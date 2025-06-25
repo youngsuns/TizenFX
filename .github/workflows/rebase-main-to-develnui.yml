@@ -18,6 +18,11 @@ jobs:
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+    - name: Set up upstream and fetch
+      run: |
+        git remote add upstream https://github.com/Samsung/TizenFX.git
+        git fetch upstream
+
     - name: Delete remote rebase branch if exists
       run: |
         git push origin --delete rebase-main || echo "No existing branch"
@@ -25,9 +30,9 @@ jobs:
     - name: Rebase main onto DevelNUI
       run: |
         git fetch origin
-        git checkout -b rebase-main origin/main
-        git rebase origin/DevelNUI
-        git push origin rebase-main
+        git checkout -b rebase-main upstream/main
+        git rebase upstream/DevelNUI
+        git push origin rebase-main --force-with-lease
 
     - name: Create PR
       env:
