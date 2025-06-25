@@ -1,4 +1,4 @@
-name: "Update NUI version"
+name: Update NUI version and create PR
 
 on:
   workflow_dispatch:
@@ -24,10 +24,16 @@ jobs:
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
 
+    - name: Delete remote branch if exists
+      run: |
+        VERSION=${{ inputs.version }}
+        git push origin --delete update-nui-$VERSION || echo "No existing remote branch"
+
     - name: Create new branch for version update
       run: |
         VERSION=${{ inputs.version }}
-        git branch -D update-nui-$VERSION || true
+        git fetch origin
+        git checkout origin/DevelNUI
         git checkout -b update-nui-$VERSION
 
     - name: Update version.txt
