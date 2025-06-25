@@ -35,7 +35,7 @@ jobs:
       run: |
         gh pr create \
           --title "Rebase main to DevelNUI" \
-          --body "This PR rebases `main` onto `DevelNUI`. Please use **Rebase and merge** when merging." \
+          --body "This PR rebases \`main\` onto \`DevelNUI\`.\n\nPlease use **Rebase and merge** when merging." \
           --base DevelNUI \
           --head ${{ github.repository_owner }}:rebase-main \
           --repo Samsung/TizenFX
