@@ -28,6 +28,7 @@ jobs:
       run: |
         git fetch origin DevelNUI
         git checkout origin/DevelNUI
+        git branch -D update-nui-${{ inputs.version }}
         git checkout -b update-nui-${{ inputs.version }}
 
     - name: Update version.txt
@@ -45,13 +46,12 @@ jobs:
         git push origin HEAD
 
     - name: Create Pull Request to DevelNUI
-      uses: peter-evans/create-pull-request@v5
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        title: "Update NUI version to ${{ inputs.version }}"
-        body: |
-          This PR updates NUI version to **${{ inputs.version }}**.
-          Please review and approve.
-        head: update-nui-${{ inputs.version }}
-        base: DevelNUI
-        draft: false
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh pr create \
+          --title "Update NUI version to ${{ inputs.version }}" \
+          --body "This PR updates NUI version to ${{ inputs.version }}." \
+          --base DevelNUI
+          --head update-nui-${{ inputs.version }}
+          --repo ${{ github.repository }}
