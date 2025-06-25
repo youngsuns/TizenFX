@@ -57,6 +57,6 @@ jobs:
         gh pr create \
           --title "Update NUI version to ${{ inputs.version }}" \
           --body "This PR updates NUI version to ${{ inputs.version }}." \
-          --base DevelNUI
-          --head update-nui-${{ inputs.version }}
+          --base DevelNUI \
+          --head update-nui-${{ inputs.version }} \
           --repo ${{ github.repository }}
